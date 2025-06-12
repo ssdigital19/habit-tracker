@@ -178,3 +178,6 @@ ion-progress-bar {
     color: var(--ion-color-step-400);
   }
 }
+.sc-ion-input-md-h{
+  margin-top: 24px;
+}

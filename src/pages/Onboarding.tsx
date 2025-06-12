@@ -128,34 +128,61 @@ const Onboarding: FC<OnboardingProps> = ({ onComplete }) => {
               </div>
             </div>
             
-            <IonItem className="form-item">
+            <IonItem className="form-item" lines="none">
               <IonLabel position="floating">Full Name</IonLabel>
               <IonInput
+                fill="solid"
                 type="text"
                 value={name}
                 onIonChange={(e) => setName(e.detail.value!)}
                 required
                 autocomplete="name"
+                style={{
+                  '--padding-start': '12px',
+                  '--padding-end': '12px',
+                  '--background': 'var(--ion-color-light)',
+                  '--border-radius': '8px',
+                  '--padding-top': '16px',
+                  '--padding-bottom': '16px',
+                }}
               />
             </IonItem>
             
-            <IonItem className="form-item">
+            <IonItem className="form-item" lines="none">
               <IonLabel position="floating">Email</IonLabel>
               <IonInput
+                fill="solid"
                 type="email"
                 value={email}
                 onIonChange={(e) => setEmail(e.detail.value!)}
                 required
                 inputMode="email"
                 autocomplete="email"
+                style={{
+                  '--padding-start': '12px',
+                  '--padding-end': '12px',
+                  '--background': 'var(--ion-color-light)',
+                  '--border-radius': '8px',
+                  '--padding-top': '16px',
+                  '--padding-bottom': '16px',
+                }}
               />
             </IonItem>
             
             <IonButton 
               type="submit" 
               expand="block" 
+              fill="solid"
               className="submit-button"
               disabled={isLoading}
+              style={{
+                '--border-radius': '8px',
+                '--padding-top': '16px',
+                '--padding-bottom': '16px',
+                'margin-top': '24px',
+                'height': '48px',
+                'font-weight': '600',
+              }}
             >
               {isLoading ? 'Creating Account...' : 'Get Started'}
               {!isLoading && <IonIcon icon={arrowForward} slot="end" />}

@@ -63,7 +63,7 @@ const Settings: React.FC = () => {
       });
       
       // Go back to dashboard
-      history.push('/dashboard');
+      history.push('/tabs/dashboard');
     } catch (error) {
       console.error('Error adding habit:', error);
       await present({
