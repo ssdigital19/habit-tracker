@@ -81,7 +81,6 @@ const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
       <AppContent />
-      <Tabs />
     </IonReactRouter>
   </IonApp>
 );
