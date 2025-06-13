@@ -1,0 +1,70 @@
+
+.settings-content {
+  --background: #f8f9fa;
+}
+
+.habit-form {
+  background: white;
+  margin: 16px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.rewards-section {
+  padding: 0 16px;
+  margin-top: 24px;
+}
+
+.rewards-section h2 {
+  margin: 0 0 16px 0;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.reward-card {
+  margin: 8px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.reward-card.unlocked {
+  --background: linear-gradient(135deg, #ff9a56 0%, #ff6b9d 100%);
+}
+
+.reward-card.locked {
+  --background: #e9ecef;
+}
+
+.reward-content {
+  text-align: center;
+  padding: 20px 16px;
+}
+
+.reward-image {
+  font-size: 48px;
+  margin-bottom: 8px;
+}
+
+.reward-name {
+  font-weight: 600;
+  color: white;
+  font-size: 14px;
+}
+
+.reward-card.locked .reward-name {
+  color: #6c757d;
+}
+
+.points-info {
+  text-align: center;
+  margin-top: 24px;
+  padding: 16px;
+}
+
+.points-info p {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+}

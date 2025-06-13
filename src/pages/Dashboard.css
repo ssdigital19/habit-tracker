@@ -1,0 +1,91 @@
+
+.dashboard-content {
+  --background: #f8f9fa;
+}
+
+.progress-section {
+  padding: 20px;
+  background: white;
+  margin: 16px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.progress-section h3 {
+  margin: 0 0 16px 0;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.progress-bar {
+  height: 8px;
+  border-radius: 4px;
+  margin: 16px 0 8px 0;
+  --progress-background: #e9ecef;
+  --background: #007bff;
+}
+
+.progress-section p {
+  margin: 0;
+  font-size: 14px;
+}
+
+.habits-section {
+  padding: 0 16px;
+}
+
+.habits-section h2 {
+  margin: 24px 0 16px 0;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.habits-list {
+  background: transparent;
+}
+
+.habit-item {
+  --background: white;
+  --border-radius: 12px;
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --min-height: 72px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.habit-icon-container {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: #f8f9fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 16px;
+}
+
+.habit-icon {
+  font-size: 20px;
+  color: #6c757d;
+}
+
+.habit-label h3 {
+  margin: 0;
+  font-weight: 600;
+  color: #1a1a1a;
+  font-size: 16px;
+}
+
+.habit-label p {
+  margin: 4px 0 0 0;
+  font-size: 14px;
+  color: #6c757d;
+}
+
+.habit-checkbox {
+  --size: 24px;
+  --checkmark-color: white;
+  --background-checked: #007bff;
+  --border-color-checked: #007bff;
+}

@@ -153,19 +153,54 @@ db.getHabits().then(async habits => {
   if (habits.length === 0) {
     const defaultHabits = [
       {
-        name: 'Meditate',
-        description: '10 minutes of meditation',
+        name: 'Make Bed',
+        description: 'Complete by 8:00 AM',
         points: 5,
       },
       {
-        name: 'Exercise',
-        description: '30 minutes of exercise',
+        name: 'Brush Teeth',
+        description: 'Complete by 8:30 AM',
+        points: 5,
+      },
+      {
+        name: 'Get Dressed',
+        description: 'Complete by 9:00 AM',
+        points: 5,
+      },
+      {
+        name: 'Eat Breakfast',
+        description: 'Complete by 9:30 AM',
         points: 10,
       },
       {
-        name: 'Read',
-        description: 'Read 30 pages',
-        points: 8,
+        name: 'Pack Lunch',
+        description: 'Complete by 10:00 AM',
+        points: 5,
+      },
+      {
+        name: 'Tidy Room',
+        description: 'Complete by 10:30 AM',
+        points: 10,
+      },
+      {
+        name: 'Homework',
+        description: 'Complete by 11:00 AM',
+        points: 15,
+      },
+      {
+        name: 'Practice Instrument',
+        description: 'Complete by 11:30 AM',
+        points: 10,
+      },
+      {
+        name: 'Read Book',
+        description: 'Complete by 12:00 PM',
+        points: 10,
+      },
+      {
+        name: 'Water Plants',
+        description: 'Complete by 12:30 PM',
+        points: 5,
       },
     ];
 

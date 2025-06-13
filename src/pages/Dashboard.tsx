@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { 
   IonPage, 
@@ -8,148 +9,152 @@ import {
   IonList, 
   IonItem, 
   IonLabel,
-  IonBadge,
-  IonLoading,
-  IonAvatar,
   IonIcon,
   IonButton,
+  IonProgressBar,
+  IonText,
+  IonCheckbox,
   useIonViewWillEnter
 } from '@ionic/react';
-import { person } from 'ionicons/icons';
+import { 
+  settingsOutline,
+  bedOutline,
+  brushOutline,
+  shirtOutline,
+  restaurantOutline,
+  bagOutline,
+  homeOutline,
+  bookOutline,
+  musicalNoteOutline,
+  libraryOutline,
+  waterOutline
+} from 'ionicons/icons';
 import { useHistory } from 'react-router-dom';
 import { db, Habit } from '../services/database';
-import HabitCard from '../components/HabitCard';
+import './Dashboard.css';
 
-// Type for the habit that will be passed to HabitCard
-type HabitForDisplay = Omit<Habit, 'id'> & { id: string };
+const habitIcons: { [key: string]: string } = {
+  'Make Bed': bedOutline,
+  'Brush Teeth': brushOutline,
+  'Get Dressed': shirtOutline,
+  'Eat Breakfast': restaurantOutline,
+  'Pack Lunch': bagOutline,
+  'Tidy Room': homeOutline,
+  'Homework': bookOutline,
+  'Practice Instrument': musicalNoteOutline,
+  'Read Book': libraryOutline,
+  'Water Plants': waterOutline,
+  'Meditate': musicalNoteOutline,
+  'Exercise': shirtOutline,
+  'Read': libraryOutline
+};
+
+const habitTimes: { [key: string]: string } = {
+  'Make Bed': '8:00 AM',
+  'Brush Teeth': '8:30 AM',
+  'Get Dressed': '9:00 AM',
+  'Eat Breakfast': '9:30 AM',
+  'Pack Lunch': '10:00 AM',
+  'Tidy Room': '10:30 AM',
+  'Homework': '11:00 AM',
+  'Practice Instrument': '11:30 AM',
+  'Read Book': '12:00 PM',
+  'Water Plants': '12:30 PM'
+};
 
 interface DashboardProps {
   tab?: string;
 }
 
 const Dashboard: React.FC<DashboardProps> = ({ tab = 'dashboard' }) => {
-  const [habits, setHabits] = useState<HabitForDisplay[]>([]);
-  const [totalPoints, setTotalPoints] = useState(0);
-  const [todayPoints, setTodayPoints] = useState(0);
-  const [loading, setLoading] = useState(true);
-
-  // Convert database habit to display habit
-  const toDisplayHabit = (habit: Habit): HabitForDisplay => ({
-    ...habit,
-    id: habit.id?.toString() || ''
-  });
-
-  const [user, setUser] = useState<{ name: string; avatar?: string } | null>(null);
+  const [habits, setHabits] = useState<Habit[]>([]);
+  const [completedCount, setCompletedCount] = useState(0);
   const history = useHistory();
 
-  useIonViewWillEnter(() => {
-    const loadUser = async () => {
-      const currentUser = await db.getCurrentUser();
-      if (currentUser) {
-        setUser({
-          name: currentUser.name,
-          avatar: currentUser.avatar
-        });
-      }
-    };
-    loadUser();
-    return () => {}; // Cleanup function
-  });
-
-  // Load habits and points
   useEffect(() => {
     const loadData = async () => {
       try {
-        setLoading(true);
-        // Load habits
         const dbHabits = await db.getHabits();
-        setHabits(dbHabits.map(toDisplayHabit));
-        
-        // Load points
-        const total = await db.getTotalPoints();
-        setTotalPoints(total);
-        
-        const today = await db.getTodaysPoints();
-        setTodayPoints(today?.totalPoints || 0);
+        setHabits(dbHabits);
+        const completed = dbHabits.filter(h => h.completed).length;
+        setCompletedCount(completed);
       } catch (error) {
         console.error('Error loading data:', error);
-      } finally {
-        setLoading(false);
       }
     };
 
     loadData();
   }, []);
 
-  const toggleHabit = async (habit: HabitForDisplay) => {
+  const toggleHabit = async (habit: Habit) => {
     try {
-      // Convert string ID back to number for database
-      const habitId = parseInt(habit.id, 10);
-      if (isNaN(habitId)) {
-        throw new Error('Invalid habit ID');
+      if (habit.id) {
+        await db.toggleHabit(habit.id, !habit.completed);
+        const updatedHabits = await db.getHabits();
+        setHabits(updatedHabits);
+        const completed = updatedHabits.filter(h => h.completed).length;
+        setCompletedCount(completed);
       }
-      
-      await db.toggleHabit(habitId, !habit.completed);
-      
-      // Refresh data
-      const updatedHabits = await db.getHabits();
-      setHabits(updatedHabits.map(toDisplayHabit));
-      
-      const total = await db.getTotalPoints();
-      setTotalPoints(total);
-      
-      const today = await db.getTodaysPoints();
-      setTodayPoints(today?.totalPoints || 0);
     } catch (error) {
       console.error('Error toggling habit:', error);
     }
   };
 
+  const progressPercentage = habits.length > 0 ? (completedCount / habits.length) : 0;
+
   return (
     <IonPage>
       <IonHeader className="ion-no-border">
         <IonToolbar>
-          <IonTitle>Habit Tracker</IonTitle>
+          <IonTitle>Daily Habits</IonTitle>
           <IonButton 
             slot="end" 
             fill="clear" 
-            className="profile-button"
-            routerLink="/tabs/profile"
-            routerDirection="forward"
+            routerLink="/tabs/settings"
           >
-            {user?.avatar ? (
-              <IonAvatar className="header-avatar">
-                <img src={user.avatar} alt={user.name} />
-              </IonAvatar>
-            ) : (
-              <IonAvatar className="header-avatar">
-                <IonIcon icon={person} className="profile-placeholder" />
-              </IonAvatar>
-            )}
+            <IonIcon icon={settingsOutline} />
           </IonButton>
         </IonToolbar>
       </IonHeader>
-      <IonContent>
-        <IonList>
-          <IonItem>
-            <IonLabel>Today's Points</IonLabel>
-            <IonBadge color="primary" slot="end">{todayPoints}</IonBadge>
-          </IonItem>
-          <IonItem>
-            <IonLabel>Total Points</IonLabel>
-            <IonBadge color="success" slot="end">{totalPoints}</IonBadge>
-          </IonItem>
-        </IonList>
-        
-        {habits.map((habit) => (
-          <HabitCard 
-            key={habit.id} 
-            habit={habit}
-            onToggle={toggleHabit} 
-          />
-        ))}
-        
-        <IonLoading isOpen={loading} message="Loading..." />
+      <IonContent className="dashboard-content">
+        <div className="progress-section">
+          <IonText>
+            <h3>Daily Progress</h3>
+          </IonText>
+          <IonProgressBar value={progressPercentage} className="progress-bar" />
+          <IonText color="medium">
+            <p>{completedCount}/{habits.length} Habits Completed</p>
+          </IonText>
+        </div>
+
+        <div className="habits-section">
+          <IonText>
+            <h2>Habits</h2>
+          </IonText>
+          
+          <IonList className="habits-list">
+            {habits.map((habit) => (
+              <IonItem key={habit.id} className="habit-item" lines="none">
+                <div className="habit-icon-container">
+                  <IonIcon 
+                    icon={habitIcons[habit.name] || bookOutline} 
+                    className="habit-icon"
+                  />
+                </div>
+                <IonLabel className="habit-label">
+                  <h3>{habit.name}</h3>
+                  <p>Complete by {habitTimes[habit.name] || '12:00 PM'}</p>
+                </IonLabel>
+                <IonCheckbox
+                  slot="end"
+                  checked={habit.completed}
+                  onIonChange={() => toggleHabit(habit)}
+                  className="habit-checkbox"
+                />
+              </IonItem>
+            ))}
+          </IonList>
+        </div>
       </IonContent>
     </IonPage>
   );
